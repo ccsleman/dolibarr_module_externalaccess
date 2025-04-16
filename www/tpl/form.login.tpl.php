@@ -113,6 +113,42 @@ $context = Context::getInstance();
             </a>
         	<?php }*/ ?>
         </div><!-- /card-container -->
+        <div class="card card-container col-lg-6  ">
+            <h4>Créer un compte</h4>
+            <form id="register-form" role="form" autocomplete="off" class="form-signin" method="post"  action="<?php echo $context->getControllerUrl('newuser'); ?>">
+                <span id="reauth-email" class="reauth-email"></span>
+                <input type="text"  name="lastname" id="inputLastname" class="form-control" placeholder="<?php echo $langs->trans("Nom"); ?>" required autofocus>
+                <input type="text"  name="firstname" id="inputFirstname" class="form-control" placeholder="<?php echo $langs->trans("Prénom"); ?>" required autofocus>
+                <input type="text"  name="username" id="inputUsername" class="form-control" placeholder="<?php echo $langs->trans("Email"); ?>" required autofocus>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="<?php echo $langs->trans("Password"); ?>" required>
+                <input type="password" name="password2" id="inputPassword2" class="form-control" placeholder="Confirmer <?php echo $langs->trans("Password"); ?>" required>
+                <input type="hidden" name="urlfrom" value="<?php print Context::urlOrigin(); ?>"/>
+
+                <?php
+
+                /* ?>
+                <div id="remember" class="checkbox">
+                    <label>
+                        <a href="" ><?php print $langs->trans('ForgetPassword'); ?></a>
+                    </label>
+                </div>
+                <?php */ ?>
+
+                <button class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Créer un compte</button>
+                <input type="hidden" name="token" value="<?php echo $_SESSION['newtoken']; ?>" />
+                <input type="hidden" name="action" value="sendemail">
+                <!--<input type="hidden" name="loginfunction" value="loginfunction" /> -->
+                <!-- Add fields to send local user information -->
+                <!--<input type="hidden" name="tz" id="tz" value="" />
+                <input type="hidden" name="tz_string" id="tz_string" value="" />
+                <input type="hidden" name="dst_observed" id="dst_observed" value="" />
+                <input type="hidden" name="dst_first" id="dst_first" value="" />
+                <input type="hidden" name="dst_second" id="dst_second" value="" />
+                <input type="hidden" name="screenwidth" id="screenwidth" value="" />
+                <input type="hidden" name="screenheight" id="screenheight" value="" /> 
+                <input type="hidden" name="controler" id="controler" value="newuser" /> -->
+            </form>
+        </div>    
    </div>
 
 <?php

@@ -7,10 +7,25 @@ TODO : pour les options commencer à voir si possible de crééer des tab par el
 
 # UNRELEASED
 
+# RELEASE 1.47
+- FIX: Remove warning detected by Sentry (DOLIBOARD-PROD-4) - 1.47.1 - **03/04/2025**
+- FIX: Display extra fields from conf on object cards and forms - 1.47.0 - **11/03/2025**
+- NEW: Add new conf to disable severity field - 1.47.0 - **11/03/2025**
 
+# RELEASE 1.46
+- NEW : Ajout d'un hook 'addMoreContactEmails' pour ajouter des emails lors d'une prise en charge de ticket par le module smartcustomersupport - 1.46.0 - **10/03/2025**
+
+# RELEASE 1.45
+- FIX : Suppression des unserialize qui retournai false sur les strings des conf d'affichage des champs dans les listes - 1.45.4 - **04/03/2025**
+- FIX : DA025948 - Fix error primary color - missing "#" en mieux :p - 1.45.3 - **10/01/2025**
+- FIX : Compat v21 - 1.45.3 - **9/12/2024** 
+- FIX : DA025746 - Fix error primary color - missing "#" - 1.45.2 - **09/12/2024**
+- FIX : DA025746 - Fix fatal mes services - 1.45.1 - **26/11/2024**
+- NEW : DA025480 - Ajout d'un menu 'mes services", et des objets:  projets, factures fourn et tâches - 1.45.0 - **25/09/2024**
 
 # RELEASE 1.44
 
+- FIX : Compat V20 - 1.44.1 - **17/07/2024**
 - FIX : Missing tech atm class - 1.44.0 - **26/06/2024**
 - NEW : Ajout d'un champ "Email pour suivi ticket" + sévérité selon conf - 1.44.0 - **10/06/2024**
 
@@ -57,6 +72,7 @@ TODO : pour les options commencer à voir si possible de crééer des tab par el
 
 # RELEASE 1.34
 
+- FIX : Extrafields non-affichés pour la partie tickets - *1.34.6* - **14/08/2024**
 - FIX : Wrong dolinclude_once *1.34.5* - **16/11/2022**
 - FIX : PHP8 warnings *1.34.4* - **19/08/2022**
 - FIX : Change editor name : ATM-Consulting -> ATM Consulting *1.34.3* - **09/08/2022**

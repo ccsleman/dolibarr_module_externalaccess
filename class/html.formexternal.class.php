@@ -253,16 +253,16 @@ class FormExternal
 	 * @return void
 	 */
 	public function addExtrafieldsItems() {
-		global $conf;
+		global $langs;
 		dol_include_once('core/class/extrafields.class.php');
 		$e = new ExtraFields($this->db);
 		$e->fetch_name_optionals_label($this->element);
 		$confVal = 'EACCESS_CARD_ADDED_FIELD_'.strtoupper($this->element);
-		$TExtraAddedField = unserialize($conf->global->{$confVal});
+		$TExtraAddedField = explode(',', getDolGlobalString($confVal));
 		if(!empty($TExtraAddedField)) {
 			foreach($TExtraAddedField as $extra_field) {
 				$extra_field = strtr($extra_field, array('EXTRAFIELD_' => ''));
-				$label = $e->attributes[$this->element]['label'][$extra_field];
+				$label = $langs->transnoentities($e->attributes[$this->element]['label'][$extra_field]);
 				$type = $e->attributes[$this->element]['type'][$extra_field];
 				$size = $e->attributes[$this->element]['size'][$extra_field];
 				$default = $e->attributes[$this->element]['default'][$extra_field];
@@ -1362,7 +1362,7 @@ class FormExternalItem
 		} elseif ($this->type == 'securekey') {
 			$out.= $this->generateInputFieldSecureKey();
 		} elseif ($this->type == 'product') {
-			if (!empty($conf->product->enabled) || !empty($conf->service->enabled)) {
+			if (isModEnabled('product') || isModEnabled('service')) {
 				$selected = (empty($this->fieldValue) ? '' : $this->fieldValue);
 				$out.= $this->form->select_produits($selected, $this->confKey, '', 0, 0, 1, 2, '', 0, array(), 0, '1', 0, $this->cssClass, 0, '', null, 1);
 			}

@@ -47,6 +47,11 @@ require __DIR__ .'/form.login.tpl.php';
 </div>
 </header>
 
+<?php /*
+<section id="forgottenpassword" class="hide" >
+<?php require __DIR__ .'/form.forgotten_password.tpl.php'; ?>
+</section>
+  */ ?>
 
 <?php include __DIR__ .'/footer.tpl.php';
 

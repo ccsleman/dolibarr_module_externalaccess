@@ -70,7 +70,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 		{
 		    $context = Context::getInstance();
 
-		    if($context->controller == 'ticket_card' && !empty($conf->ticket->enabled))
+		    if($context->controller == 'ticket_card' && isModEnabled('ticket'))
             {
 				$this->actionTicketCard($parameters, $object, $action, $hookmanager);
             }
@@ -112,7 +112,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 			}
 	        /*elseif ($action === 'getOrdersList')
 	        {
-	            if($conf->global->EACCESS_ACTIVATE_ORDERS && !empty($user->rights->externalaccess->view_orders))
+	            if(getDolGlobalString('EACCESS_ACTIVATE_ORDERS') && !empty($user->hasRight('externalaccess', 'view_orders')))
 	            {
 	                print json_orderList($user->societe_id,99999, GETPOST('offset','int'));
 	                exit();
@@ -120,7 +120,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 	        }
 	        elseif ($action === 'getPropalsList')
 	        {
-	            if($conf->global->EACCESS_ACTIVATE_PROPALS && !empty($user->rights->externalaccess->view_propals))
+	            if(getDolGlobalString('EACCESS_ACTIVATE_PROPALS') && !empty($user->hasRight('externalaccess', 'view_propals')))
 	            {
 	                print json_propalList($user->societe_id,99999, GETPOST('offset','int'));
 	                exit();
@@ -128,7 +128,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 	        }
 	        elseif ($action === 'getInvoicesList')
 	        {
-	            if($conf->global->EACCESS_ACTIVATE_INVOICES && !empty($user->rights->externalaccess->view_invoices))
+	            if(getDolGlobalString('EACCESS_ACTIVATE_INVOICES') && !empty($user->hasRight('externalaccess', 'view_invoices')))
 	            {
 	                print json_invoiceList($user->societe_id,99999, GETPOST('offset','int'));
 	                exit();
@@ -163,7 +163,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 	    if (in_array('externalaccesspage', explode(':', $parameters['context'])))
 	    {
 	        $context = Context::getInstance();
-	        if($context->controller == 'ticket_card' && !empty($conf->ticket->enabled))
+	        if($context->controller == 'ticket_card' && isModEnabled('ticket'))
             {
                 $context->setControllerFound();
 				$ticketId = GETPOST('id', 'int');
@@ -463,7 +463,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 				$errors = 0;
 
 
-				if (getDolGlobalInt('EACCESS_SEVERITY')) {
+				if (getDolGlobalInt('EACCESS_SEVERITY') && !getDolGlobalInt('EACCESS_DISABLE_SEVERITY_ON_TICKET')) {
 					$severity = GETPOST('severity', 'none');
 				}
 
@@ -528,7 +528,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 					$ticket->ref = $ticket->getDefaultRef();
 					$ticket->datec = time();
 					$ticket->fk_statut = Ticket::STATUS_NOT_READ;
-					
+
 					if(!empty($followUpEmail)) {
 						$TResults = getContactIds($user->socid, $followUpEmail, $context);
 						if(empty($TResults)) {
@@ -548,7 +548,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 						if(empty($user->contact_id)){
 							$user->contact_id = $user->contactid; // Dolibarr < 13 retrocompatibility
 						}
-						
+
 						$ticket->add_contact($user->contact_id, "SUPPORTCLI", 'external', 0);
 						if (getDolGlobalInt('EACCESS_FOLLOW_UP_EMAIL')) {
 							if(!empty($TResults)){
@@ -558,7 +558,7 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 								}
 							}
 						}
-						
+
 					}else{
 						$ticketErrors++;
 						$context->setEventMessages($langs->trans('AnErrorOccurredDuringTicketSave'), 'errors');
@@ -596,4 +596,23 @@ class Actionsexternalaccess extends externalaccess\RetroCompatCommonHookActions
 			$context->desc = $langs->trans('ViewTicketsDesc');
 		}
 	}
+
+	/**
+	 * addMoreContactEmails Method Hook Call
+	 *
+	 * @param array $parameters
+	 * @param object &$object
+	 * @param string &$action
+	 * @param Object $hookmanager
+	 * @return int
+	 */
+	public function addMoreContactEmails(array $parameters, object &$object, string &$action, object $hookmanager): int
+	{
+		if (getDolGlobalInt('EACCESS_FOLLOW_UP_EMAIL')){
+			$followUpMail = $object->array_options['options_externalaccess_followupemail'];
+			if (!empty($followUpMail)) $this->results = [$followUpMail];
+		}
+		return 0;
+	}
+
 }

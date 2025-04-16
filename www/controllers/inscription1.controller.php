@@ -1,7 +1,7 @@
 <?php
 
 
-class TicketsController extends Controller
+class Inscription1Controller extends Controller
 {
 	/**
 	 * check current access to controller
@@ -11,7 +11,7 @@ class TicketsController extends Controller
 	 */
 	public function checkAccess() {
 		global $conf, $user;
-		$this->accessRight = isModEnabled('ticket') && getDolGlobalInt('EACCESS_ACTIVATE_TICKETS') && $user->hasRight('externalaccess','view_tickets');
+		$this->accessRight = $user->hasRight('externalaccess','view_tickets');
 		return parent::checkAccess();
 	}
 
@@ -28,9 +28,9 @@ class TicketsController extends Controller
 		$context = Context::getInstance();
 		if(!$context->controllerInstance->checkAccess()) { return; }
 
-		$context->title = $langs->trans('ViewTickets');
-		$context->desc = $langs->trans('ViewTicketsDesc');
-		$context->menu_active[] = 'tickets';
+		$context->title = "Liste des cours et croisières";
+		$context->desc = "Inscription aux cours et croisières";
+		$context->menu_active[] = 'Inscriptions';
 
 		$hookRes = $this->hookDoAction();
 		if(empty($hookRes)){
@@ -54,19 +54,19 @@ class TicketsController extends Controller
 		$hookRes = $this->hookPrintPageView();
 		if(empty($hookRes)){
 			print '<section id="section-ticket"><div class="container">';
-			self::print_ticketTable($user->socid);
+			self::print_coursTable();
 			print '</div></section>';
 		}
 		$this->loadTemplate('footer');
 	}
 
 
-	static public function print_ticketTable($socId = 0)
+	static public function print_coursTable()
 	{
 		global $langs,$db, $user, $conf, $hookmanager;
 		$context = Context::getInstance();
 
-		dol_include_once('ticket/class/ticket.class.php');
+		dol_include_once('ticket/class/ticket.class.php'); #Ageffodd
 		$ticketStatic = new Ticket($context->dbTool->db);
 
 		$langs->load('ticket');
@@ -97,16 +97,16 @@ class TicketsController extends Controller
 		if(!empty($tableItems))
 		{
 
-			$TOther_fields = explode(',', getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS'));
+			$TOther_fields = unserialize(getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS'));
 			if(empty($TOther_fields)) $TOther_fields = array();
 
-			$TOther_fields_ticket = explode(',', getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS_TICKET'));
+			$TOther_fields_ticket = unserialize(getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS_TICKET'));
 			if(empty($TOther_fields_ticket)) $TOther_fields_ticket = array();
 
 			$TOther_fields = array_merge($TOther_fields, $TOther_fields_ticket);
 
 
-			print '<table id="ticket-list" class="table table-striped" >';
+			print '<table id="session-list" class="table table-striped" >';
 			print '<thead>';
 			print '<tr>';
 			print ' <th class="text-center" >'.$langs->trans('Ref').'</th>';
@@ -126,9 +126,7 @@ class TicketsController extends Controller
 			print ' <th class="text-center" >'.$langs->trans('Date').'</th>';
 			print ' <th class="text-center" >'.$langs->trans('Subject').'</th>';
 			print ' <th class="text-center" >'.$langs->trans('Type').'</th>';
-			if (!getDolGlobalInt('EACCESS_DISABLE_SEVERITY_ON_TICKET')) {
-				print ' <th class="text-center" >'.$langs->trans('TicketSeverity').'</th>';
-			}
+			print ' <th class="text-center" >'.$langs->trans('TicketSeverity').'</th>';
 			print ' <th class="text-center" >'.$langs->trans('Status').'</th>';
 			print '</tr>';
 			print '</thead>';
@@ -157,9 +155,7 @@ class TicketsController extends Controller
 				print ' <td data-search="'.dol_print_date($object->datec).'" data-order="'.$object->datec.'" >'.dol_print_date($object->datec).'</td>';
 				print ' <td data-search="'.$object->subject.'" data-order="'.$object->subject.'" >'.$object->subject.'</td>';
 				print ' <td data-search="'.$object->type_label.'" data-order="'.$object->type_label.'" >'.$object->type_label.'</td>';
-				if (!getDolGlobalInt('EACCESS_DISABLE_SEVERITY_ON_TICKET')) {
-					print ' <td data-search="'.$object->severity_label.'" data-order="'.$object->severity_label.'" >'.$object->severity_label.'</td>';
-				}
+				print ' <td data-search="'.$object->severity_label.'" data-order="'.$object->severity_label.'" >'.$object->severity_label.'</td>';
 				print ' <td class="text-center" >'.$object->getLibStatut(1).'</td>';
 				print '</tr>';
 			}

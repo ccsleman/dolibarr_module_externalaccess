@@ -149,6 +149,11 @@ class Context
 		$this->addControllerDefinition('expeditions', $defaultControllersPath.'expeditions.controller.php', 'ExpeditionsController');
 		$this->addControllerDefinition('supplier_invoices', $defaultControllersPath.'supplier_invoices.controller.php', 'SupplierInvoicesController');
 		$this->addControllerDefinition('tickets', $defaultControllersPath.'tickets.controller.php', 'TicketsController');
+		$this->addControllerDefinition('newuser', $defaultControllersPath.'newuser.controller.php', 'NewuserController');
+		$this->addControllerDefinition('inscription1', $defaultControllersPath.'inscription1.controller.php', 'Inscription1Controller');
+		$this->addControllerDefinition('inscription2', $defaultControllersPath.'inscription2.controller.php', 'Inscription2Controller');
+		$this->addControllerDefinition('inscription3', $defaultControllersPath.'inscription3.controller.php', 'Inscription3Controller');
+		$this->addControllerDefinition('inscription4', $defaultControllersPath.'inscription4.controller.php', 'Inscription4Controller');
 
 		// Appel des triggers
 		include_once DOL_DOCUMENT_ROOT . '/core/class/interfaces.class.php';

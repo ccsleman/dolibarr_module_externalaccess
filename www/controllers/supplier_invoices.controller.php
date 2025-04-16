@@ -11,7 +11,7 @@ class SupplierInvoicesController extends Controller
 	 */
 	public function checkAccess() {
 		global $conf, $user;
-		$this->accessRight = !empty($conf->supplier_invoice->enabled) && getDolGlobalInt('EACCESS_ACTIVATE_SUPPLIER_INVOICES') && $user->hasRight('externalaccess','view_supplier_invoices');
+		$this->accessRight = isModEnabled('supplier_invoice') && getDolGlobalInt('EACCESS_ACTIVATE_SUPPLIER_INVOICES') && $user->hasRight('externalaccess','view_supplier_invoices');
 		return parent::checkAccess();
 	}
 
@@ -102,7 +102,7 @@ class SupplierInvoicesController extends Controller
 
 			//TODO : ajouter tableau $TFieldsCols et hook listColumnField comme dans print_expeditionlistTable
 
-			$TOther_fields = unserialize(getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS'));
+			$TOther_fields = explode(',', getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS'));
 			if(empty($TOther_fields)) $TOther_fields = array();
 
 			print '<table id="invoice-list" class="table table-striped" >';

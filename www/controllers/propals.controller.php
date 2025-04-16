@@ -12,7 +12,7 @@ class PropalsController extends Controller
 	 */
 	public function checkAccess() {
 		global $conf, $user;
-		$this->accessRight = !empty($conf->propal->enabled) && getDolGlobalInt('EACCESS_ACTIVATE_PROPALS') && $user->hasRight('externalaccess','view_propals');
+		$this->accessRight = isModEnabled('propal') && getDolGlobalInt('EACCESS_ACTIVATE_PROPALS') && $user->hasRight('externalaccess','view_propals');
 		return parent::checkAccess();
 	}
 
@@ -98,11 +98,10 @@ class PropalsController extends Controller
 		{
 
 			//TODO : ajouter tableau $TFieldsCols et hook listColumnField comme dans print_expeditionlistTable
-
-			$TOther_fields = unserialize(getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS'));
+			$TOther_fields = explode(',', getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS'));
 			if(empty($TOther_fields)) $TOther_fields = array();
 
-            $TOther_fields_propal = unserialize(getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS_PROPAL'));
+			$TOther_fields_propal = explode(',', getDolGlobalString('EACCESS_LIST_ADDED_COLUMNS_PROPAL'));
 			if(empty($TOther_fields_propal)) $TOther_fields_propal = array();
 
             $TOther_fields = array_merge($TOther_fields, $TOther_fields_propal);

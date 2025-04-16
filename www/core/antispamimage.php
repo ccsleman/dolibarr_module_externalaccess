@@ -60,7 +60,6 @@ for ($i = 0; $i < $length; $i++) {
 //print $string;
 
 
-
 $sessionkey = 'dol_antispam_value';
 $_SESSION[$sessionkey] = $string;
 
@@ -76,5 +75,4 @@ top_httphead('image/png', 1);
 $background_color = imagecolorallocate($img, 250, 250, 250);
 $ecriture_color = imagecolorallocate($img, 0, 0, 0);
 imagestring($img, 4, 24, 8, $string, $ecriture_color);
-dol_syslog("********** |||| *****", LOG_INFO);
 imagepng($img);

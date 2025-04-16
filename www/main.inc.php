@@ -751,11 +751,6 @@ if (! defined('NOLOGIN') && !empty($context->controllerInstance->accessNeedLogge
 
 }
 
-
-
-
-
-
 if (! defined('NOREQUIRETRAN'))
 {
 	if (! GETPOST('lang','aZ09'))	// If language was not forced on URL
@@ -780,7 +775,7 @@ if (! defined('NOLOGIN') && !empty($context->controllerInstance->accessNeedLogge
 	if (! $user->login) accessforbidden();
 
 	// Check if user is active
-	if ($user->statut < 1)
+	if ($user->status < 1)
 	{
 		// If not active, we refuse the user
 		$langs->load("other");
@@ -794,7 +789,7 @@ if (! defined('NOLOGIN') && !empty($context->controllerInstance->accessNeedLogge
 }
 
 
-dol_syslog("--- Access to ".$_SERVER["PHP_SELF"].' - action='.GETPOST('action','az09').', massaction='.GETPOST('massaction','az09'));
+dol_syslog("--- Access to ".$_SERVER["PHP_SELF"].' - action='.GETPOST('action','aZ09').', massaction='.GETPOST('massaction','aZ09'));
 //Another call for easy debugg
 //dol_syslog("Access to ".$_SERVER["PHP_SELF"].' GET='.join(',',array_keys($_GET)).'->'.join(',',$_GET).' POST:'.join(',',array_keys($_POST)).'->'.join(',',$_POST));
 
