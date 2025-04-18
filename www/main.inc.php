@@ -751,6 +751,11 @@ if (! defined('NOLOGIN') && !empty($context->controllerInstance->accessNeedLogge
 
 }
 
+
+
+
+
+
 if (! defined('NOREQUIRETRAN'))
 {
 	if (! GETPOST('lang','aZ09'))	// If language was not forced on URL
@@ -775,7 +780,7 @@ if (! defined('NOLOGIN') && !empty($context->controllerInstance->accessNeedLogge
 	if (! $user->login) accessforbidden();
 
 	// Check if user is active
-	if ($user->status < 1)
+	if ($user->statut < 1)
 	{
 		// If not active, we refuse the user
 		$langs->load("other");
